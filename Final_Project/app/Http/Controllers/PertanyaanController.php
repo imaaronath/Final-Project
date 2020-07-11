@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Jawaban extends Controller
+class PertanyaanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +17,7 @@ class Jawaban extends Controller
      */
     public function index()
     {
-        //
+        return view('home.index');
     }
 
     /**
