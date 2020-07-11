@@ -1,4 +1,4 @@
-@extends('master.welcome4')
+@extends('layouts.welcome4')
 @section('content')
 <div class="container">
   <form style="margin-top:150px" action="/index">

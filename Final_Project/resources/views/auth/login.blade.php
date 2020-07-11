@@ -32,7 +32,7 @@
           <div class="row">
             <div class="col-8">
               <div class="icheck-primary">
-                <input type="checkbox" id="remember">
+                <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : ''}}>
                 <label for="remember">
                   Remember Me
                 </label>
@@ -50,10 +50,10 @@
         <!-- /.social-auth-links -->
 
         <p class="mb-1">
-          <a href="#">I forgot my password</a>
+          <a href={{ route('password.request')}}>Forgot password</a>
         </p>
         <p class="mb-0">
-          <a href="#" class="text-center">Register a new membership</a>
+          <a href={{ route('register') }} class="text-center">Register a new membership</a>
         </p>
       </div>
       <!-- /.login-card-body -->

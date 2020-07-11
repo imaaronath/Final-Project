@@ -12,9 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/','DashboardController@index')->name('Dashboard');
 
 Auth::routes(['register=> false']);
 
-Route::get('/','DashboardController@index')->name('Dashboard');
+
 
 Route::resource('pertanyaan', 'PertanyaanController');
+
+Route::resource('jawaban', 'JawabanController');
