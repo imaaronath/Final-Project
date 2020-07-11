@@ -12,12 +12,18 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/','DashboardController@index')->name('Dashboard');
 
 Auth::routes(['register=> false']);
 
-
+Route::get('/', 'DashboardController@index')->name('Dashboard');
 
 Route::resource('pertanyaan', 'PertanyaanController');
 
-Route::resource('jawaban', 'JawabanController');
+// Pertanyaan
+Route::get('/home', 'PertanyaanController@index')->name('index');
+Route::get('/create', 'PertanyaanController@create');
+Route::post('/store', 'PertanyaanController@store');
+Route::get('/show/{id}', 'PertanyaanController@show')->name('detail');
+Route::get('/edit/{id}', 'PertanyaanController@edit');
+Route::put('/update/{id}', 'PertanyaanController@update');
+Route::get('/delete/{id}', 'PertanyaanController@destroy');

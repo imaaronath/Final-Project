@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pertanyaan;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
+
 
 class PertanyaanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+    // /**
+    //  * Display a listing of the resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
     public function index()
     {
-        return view('home.index');
+        $pertanyaan = Pertanyaan::all();
+        return view('home.index', ["pertanyaan" => $pertanyaan]);
     }
 
     /**
@@ -27,7 +32,7 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-        //
+        return view('home.create');
     }
 
     /**
@@ -38,7 +43,18 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id = Auth::id();
+        Pertanyaan::create(
+            [
+                "judul" => strtoupper($request->judul),
+                "isi" => $request->isi,
+                "tag" => $request->tag,
+                "vote" => 0,
+                "upvoted_by" => "-"
+            ]
+        );
+
+        return redirect("/home");
     }
 
     /**
@@ -49,7 +65,8 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        //
+        $pertanyaan = Pertanyaan::where("id", $id)->get();
+        return view("home.detail", ["pertanyaan" => $pertanyaan]);
     }
 
     /**
@@ -60,7 +77,8 @@ class PertanyaanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pertanyaan = Pertanyaan::where("id", $id)->get();
+        return view("home.edit", ["pertanyaan" => $pertanyaan]);
     }
 
     /**
@@ -72,7 +90,12 @@ class PertanyaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pertanyaan = Pertanyaan::find($id);
+        $pertanyaan->judul = strtoupper($request->judul);
+        $pertanyaan->isi = $request->isi;
+        $pertanyaan->tag = $request->tag;
+        $pertanyaan->save();
+        return redirect("/home");
     }
 
     /**
@@ -83,6 +106,8 @@ class PertanyaanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pertanyaan = Pertanyaan::find($id);
+        $pertanyaan->delete();
+        return redirect("/home");
     }
 }

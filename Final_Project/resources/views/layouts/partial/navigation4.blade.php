@@ -12,9 +12,17 @@
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/homesignin">About</a></li>
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/homesignin">Contact</a></li>
                 <li class="nav-item mx-0 mx-lg-1">
-                  <div class="coba" style="background:lightblue; border-radius:10px">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style="color:black" href="/">Sign Out</a>
-                  </div>
+                    <div class="coba" style="background:lightblue; border-radius:10px">
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style="color:black" href="{{ route('logout') }}" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            {{ __('Sign OUt') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
+                        <!-- <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style="color:black" href="/">Sign Out</a> -->
+                    </div>
                 </li>
             </ul>
         </div>
