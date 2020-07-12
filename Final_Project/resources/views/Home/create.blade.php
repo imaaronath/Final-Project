@@ -17,7 +17,7 @@
     <!-- /.card-header -->
     <!-- form start -->
     <form method="POST" action="/store">
-      @csrf()
+      @csrf
       <div class="card-body">
         <div class="form-group">
           <label for="judul">Judul</label>
@@ -50,3 +50,5 @@
   });
 </script>
 @endsection
+
+

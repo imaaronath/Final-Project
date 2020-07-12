@@ -19,7 +19,7 @@
     @foreach ($pertanyaan as $p)
     <form method="POST" action="/update/{{$p->id}}">
       @method('PUT')
-      @csrf()
+      @csrf
       <div class="card-body">
         <div class="form-group">
           <label for="judul">Judul</label>

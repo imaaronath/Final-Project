@@ -15,8 +15,7 @@ class CreateJawabanTable extends Migration
     {
         Schema::create('jawaban', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('question_id')->constrained('pertanyaan');
+            $table->integer('question_id');
             $table->string('jawaban');
             $table->integer('vote');
             $table->boolean('best_answer');

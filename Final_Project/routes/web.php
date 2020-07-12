@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['register=> false']);
 
 Route::get('/', 'DashboardController@index')->name('Dashboard');
-
 Route::resource('pertanyaan', 'PertanyaanController');
-
 // Pertanyaan
 Route::get('/home', 'PertanyaanController@index')->name('index');
 Route::get('/create', 'PertanyaanController@create');
@@ -27,5 +25,14 @@ Route::get('/show/{id}', 'PertanyaanController@show')->name('detail');
 Route::get('/edit/{id}', 'PertanyaanController@edit');
 Route::put('/update/{id}', 'PertanyaanController@update');
 Route::get('/delete/{id}', 'PertanyaanController@destroy');
+
 Route::put('/pertanyaan/upvote/{id}', 'PertanyaanController@upvote');
 Route::put('/pertanyaan/downvote/{id}', 'PertanyaanController@downvote');
+
+
+//jawaban
+Route::resource('jawaban','JawabanController');
+
+Route::get('/editjawaban/{id}', 'JawabanController@edit');
+Route::put('/update/{id}', 'JawabanController@update');
+Route::get('/deletejawaban/{id}', 'JawabanController@destroy');

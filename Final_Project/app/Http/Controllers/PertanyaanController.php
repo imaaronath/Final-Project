@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pertanyaan;
+
 use App\User;
+
+use App\Models\Jawaban;
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -11,10 +15,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PertanyaanController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     // /**
     //  * Display a listing of the resource.
     //  *
@@ -22,6 +26,7 @@ class PertanyaanController extends Controller
     //  */
     public function index()
     {
+
         $id = Auth::id();
 
         if ($id == "") {
@@ -32,6 +37,9 @@ class PertanyaanController extends Controller
             $pertanyaan = Pertanyaan::all();
             return view('home.index', ["pertanyaan" => $pertanyaan, "user_id" => $id, "reputation" => $user["reputation"]]);
         }
+        $pertanyaan = Pertanyaan::all();
+        return view('home.index')->with(["pertanyaan" => $pertanyaan]);
+
     }
 
     /**
@@ -41,7 +49,10 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-        return view('home.create');
+        $data = Pertanyaan::all();
+        return view('home.create')->with([
+            "data" => $data
+        ]);
     }
 
     /**
@@ -74,8 +85,15 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
+        $nama = Auth::user();
         $pertanyaan = Pertanyaan::where("id", $id)->get();
-        return view("home.detail", ["pertanyaan" => $pertanyaan]);
+        $data = Jawaban::where("question_id", $id)->get();
+        return view("home.detail")->with([
+            "pertanyaan" => $pertanyaan,
+            "data" => $data,
+            "nama" => $nama
+            ]);
+
     }
 
     /**

@@ -9,8 +9,8 @@ class Pertanyaan extends Model
     protected $table = 'pertanyaan';
     protected $fillable = ["judul", "isi", "tag", "vote", "upvoted_by"];
 
-    public function users()
+    public function jawaban()
     {
-        return $this->belongsTo('App\Users');
+        return $this->hasMany(Jawaban::class,'question_id');
     }
 }
