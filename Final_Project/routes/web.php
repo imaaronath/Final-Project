@@ -27,3 +27,5 @@ Route::get('/show/{id}', 'PertanyaanController@show')->name('detail');
 Route::get('/edit/{id}', 'PertanyaanController@edit');
 Route::put('/update/{id}', 'PertanyaanController@update');
 Route::get('/delete/{id}', 'PertanyaanController@destroy');
+Route::put('/pertanyaan/upvote/{id}', 'PertanyaanController@upvote');
+Route::put('/pertanyaan/downvote/{id}', 'PertanyaanController@downvote');
