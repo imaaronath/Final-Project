@@ -42,7 +42,7 @@ class JawabanController extends Controller
     {
         Jawaban::create(
             [
-                "question_id" => 1,
+                "question_id"=>$request->question_id,
                 "jawaban" => $request->jawaban,
                 "vote"=> 0,
                 "best_answer" => false,
@@ -50,7 +50,7 @@ class JawabanController extends Controller
                 
             ]
         );
-        return redirect()->route('jawaban.store');
+        return redirect('/home');
     }
 
     /**
@@ -61,7 +61,7 @@ class JawabanController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -72,10 +72,8 @@ class JawabanController extends Controller
      */
     public function edit($id)
     {
-        $answer = Jawaban::with('question')->findOrFail($id);
-        return view("home.edit")->with([
-            "answer" => $answer
-        ]);
+        $answer = Jawaban::where("id", $id)->get();
+        return view("home.editjawaban", ["jawaban" => $answer]);
     }
 
     /**
@@ -87,7 +85,10 @@ class JawabanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $jawaban = Jawaban::find($id);
+        $jawaban->jawaban = $request->jawaban;
+        $jawaban->save();
+        return redirect("/home");
     }
 
     /**
@@ -98,6 +99,8 @@ class JawabanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $jawaban = Jawaban::find($id);
+        $jawaban->delete();
+        return redirect("/home");
     }
 }

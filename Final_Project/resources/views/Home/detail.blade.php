@@ -27,7 +27,7 @@
           <button class="btn btn-primary btn-sm">{{$tag}}</button>
           @endforeach
         </p>
-        <p class="text-right">Created at: <b>{{$p->created_at}}</b>
+        <p class="text-right">Created by:<b>{{$nama->name}}</b> <br>Created at: <b>{{$p->created_at}}</b>
           <> Last Update: <b>{{$p->updated_at}}</b>
         </p>
       </div>
@@ -37,22 +37,24 @@
       <div class="form-group">
         <p>
           {!! $a->jawaban !!}
+          <a role="button" href="/editjawaban/{{$a->id}}" class="btn btn-success" title="Edit Jawaban"><span class="fa fa-edit"></span></a>
+          <a role="button" href="#" class="btn btn-danger" title="Delete Jawaban" onclick="return confirmFunction('{{$a->id}}')"><span class="fa fa-trash"></span></a>
         </p>
-        <p class="text-right">Created at: <b>{{$a->created_at}}</b>
+        <p class="text-right">Created by:<b>{{$nama->name}}</b> <br>Created at: <b>{{$a->created_at}}</b>
           <> Last Update: <b>{{$a->updated_at}}</b>
         </p>
       </div>
     </div>
       @endforeach
     <!-- /.card-body -->
-
   <form action="{{route('jawaban.store')}}" method="POST">
     @csrf
     <div class="card-footer">
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title">Jawaban</h3>
-          <textarea class="form-control" name="jawaban" placeholder="Isi Jawabanmu"></textarea>
+          <input type="hidden"name="question_id" value="{{$p->id}}" readonly>
+          <textarea class="form-control" id="jawaban" name="jawaban" placeholder="Isi Jawabanmu"></textarea>
         </div>
       </div>
       <div class="card-body">
@@ -66,7 +68,7 @@
 <script src="{{ asset('node_modules/tinymce/tinymce.js') }}"></script>
 <script>
   tinymce.init({
-    selector: '#isi',
+    selector: '#jawaban',
     width: 900,
     height: 300
   });

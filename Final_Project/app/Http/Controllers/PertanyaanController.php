@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pertanyaan;
 use App\Models\Jawaban;
+use App\Models\Komentar;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -11,10 +12,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PertanyaanController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     // /**
     //  * Display a listing of the resource.
     //  *
@@ -69,11 +70,13 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
+        $nama = Auth::user();
         $pertanyaan = Pertanyaan::where("id", $id)->get();
-        $data = Jawaban::where("id", $id)->get();
+        $data = Jawaban::where("question_id", $id)->get();
         return view("home.detail")->with([
             "pertanyaan" => $pertanyaan,
-            "data" => $data
+            "data" => $data,
+            "nama" => $nama
             ]);
 
     }

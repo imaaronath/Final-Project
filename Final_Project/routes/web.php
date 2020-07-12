@@ -25,6 +25,10 @@ Route::get('/show/{id}', 'PertanyaanController@show')->name('detail');
 Route::get('/edit/{id}', 'PertanyaanController@edit');
 Route::put('/update/{id}', 'PertanyaanController@update');
 Route::get('/delete/{id}', 'PertanyaanController@destroy');
-//jawaban
 
+//jawaban
 Route::resource('jawaban','JawabanController');
+
+Route::get('/editjawaban/{id}', 'JawabanController@edit');
+Route::put('/update/{id}', 'JawabanController@update');
+Route::get('/deletejawaban/{id}', 'JawabanController@destroy');
