@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pertanyaan;
+
+use App\User;
+
 use App\Models\Jawaban;
-use App\Models\Komentar;
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -23,8 +26,20 @@ class PertanyaanController extends Controller
     //  */
     public function index()
     {
+
+        $id = Auth::id();
+
+        if ($id == "") {
+            $pertanyaan = Pertanyaan::all();
+            return view('home.index', ["pertanyaan" => $pertanyaan]);
+        } else {
+            $user = Auth::user();
+            $pertanyaan = Pertanyaan::all();
+            return view('home.index', ["pertanyaan" => $pertanyaan, "user_id" => $id, "reputation" => $user["reputation"]]);
+        }
         $pertanyaan = Pertanyaan::all();
         return view('home.index')->with(["pertanyaan" => $pertanyaan]);
+
     }
 
     /**
@@ -55,7 +70,7 @@ class PertanyaanController extends Controller
                 "isi" => $request->isi,
                 "tag" => $request->tag,
                 "vote" => 0,
-                "upvoted_by" => "-"
+                "upvoted_by" => ""
             ]
         );
 
@@ -120,6 +135,39 @@ class PertanyaanController extends Controller
     {
         $pertanyaan = Pertanyaan::find($id);
         $pertanyaan->delete();
+        return redirect("/home");
+    }
+
+    public function upvote($id)
+    {
+        $id_user = Auth::id();
+        $pertanyaan = Pertanyaan::find($id);
+        if ($pertanyaan->upvoted_by == "") {
+            $pertanyaan->upvoted_by = $id_user . ',';
+        } else {
+            $pertanyaan->upvoted_by = $pertanyaan->upvoted_by . $id_user . ',';
+        }
+        $pertanyaan->vote = $pertanyaan->vote + 1;
+        $pertanyaan->save();
+
+        $user = User::find($pertanyaan->user_id);
+        $user->reputation = $user->reputation + 10;
+        $user->save();
+
+        return redirect("/home");
+    }
+
+    public function downvote($id)
+    {
+        $id_user = Auth::id();
+        $pertanyaan = Pertanyaan::find($id);
+        $pertanyaan->vote = $pertanyaan->vote - 1;
+        $pertanyaan->save();
+
+        $user = User::find($pertanyaan->user_id);
+        $user->reputation = $user->reputation - 1;
+        $user->save();
+
         return redirect("/home");
     }
 }
