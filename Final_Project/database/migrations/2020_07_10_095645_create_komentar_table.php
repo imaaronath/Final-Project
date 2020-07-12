@@ -15,6 +15,7 @@ class CreateKomentarTable extends Migration
     {
         Schema::create('komentar', function (Blueprint $table) {
             $table->id();
+            $table->integer('answer_id');
             $table->text('isi');
             $table->timestamps();
         });

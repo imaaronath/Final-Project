@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Jawaban;
+use App\Models\Pertanyaan;
 
 class JawabanController extends Controller
 {
@@ -38,7 +40,17 @@ class JawabanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Jawaban::create(
+            [
+                "question_id" => 1,
+                "jawaban" => $request->jawaban,
+                "vote"=> 0,
+                "best_answer" => false,
+                "upvoted_by" => "-"
+                
+            ]
+        );
+        return redirect()->route('jawaban.store');
     }
 
     /**
@@ -60,7 +72,10 @@ class JawabanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $answer = Jawaban::with('question')->findOrFail($id);
+        return view("home.edit")->with([
+            "answer" => $answer
+        ]);
     }
 
     /**

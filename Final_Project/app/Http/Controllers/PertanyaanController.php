@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pertanyaan;
+use App\Models\Jawaban;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class PertanyaanController extends Controller
     public function index()
     {
         $pertanyaan = Pertanyaan::all();
-        return view('home.index', ["pertanyaan" => $pertanyaan]);
+        return view('home.index')->with(["pertanyaan" => $pertanyaan]);
     }
 
     /**
@@ -32,7 +33,10 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-        return view('home.create');
+        $data = Pertanyaan::all();
+        return view('home.create')->with([
+            "data" => $data
+        ]);
     }
 
     /**
@@ -66,7 +70,12 @@ class PertanyaanController extends Controller
     public function show($id)
     {
         $pertanyaan = Pertanyaan::where("id", $id)->get();
-        return view("home.detail", ["pertanyaan" => $pertanyaan]);
+        $data = Jawaban::where("id", $id)->get();
+        return view("home.detail")->with([
+            "pertanyaan" => $pertanyaan,
+            "data" => $data
+            ]);
+
     }
 
     /**
